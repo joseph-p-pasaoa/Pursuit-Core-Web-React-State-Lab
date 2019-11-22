@@ -9,7 +9,7 @@ Build a simple clicker game.  It should have the following requirements:
 - When the user has 100 points, display a victory screen
 - Have a button that resets the game
 
-![clickerGame](./clickerGame)
+![clickerGame](./clickerGame.gif)
 
 # create-react-app boilerplate
 

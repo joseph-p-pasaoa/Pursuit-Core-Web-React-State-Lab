@@ -78,6 +78,22 @@ html, body, div#base-grid {
   padding: 0;
 }
 
-.App {
+div#flex-base {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+p#score {
   text-align: center;
+}
+
+p.msg--red {
+  color: red;
+}
+
+button {
+  display: block;
 }

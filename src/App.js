@@ -14,51 +14,88 @@ import './App.css';
 class App extends React.Component {
   constructor() {
     super();
+    this.messages = {
+      regular: <p>All systems go. Click for credits!</p>,
+      boostDenied: <p className='msg--red'>Not enough credits. Boost DENIED.</p>,
+      victory: <p>You made 100 credits!</p>
+    }
     this.initialState = {
       credits: 0,
-      perClick: 1
+      clickValue: 1,
+      boostsActive: 0,
+      statusMsg: this.messages.regular
     };
     this.state = this.initialState;
   }
 
-  handleClickGo = () => {
+  hanClickGo = () => {
     this.setState({
-        credits: this.state.credits + this.state.perClick
+        credits: this.state.credits + this.state.clickValue
     });
   }
 
-  handleClickReset = () => {
+  hanClickBoost = () => {
+    if (this.state.credits < 10) {
+      this.setState({
+          statusMsg: this.messages.boostDenied
+      });
+      setTimeout(() => {
+          this.setState({
+              statusMsg: this.messages.regular
+          })
+      }, 2000);
+    } else {
+      this.setState({
+          credits: this.state.credits - 10,
+          clickValue: this.state.clickValue + 1,
+          boostsActive: this.boostsActive + 1
+      });
+    }
+  }
+
+  hanClickReset = () => {
     this.setState(this.initialState);
   }
 
   render() {
-    const { credits, perClick } = this.state;
+    const { credits, clickValue, boostsActive, statusMsg } = this.state;
 
-    if (credits >= 10) {
-      return(
+    const topDisplay =
+      <div id="topDisplay">
+        <p id="score">{credits}</p>
+        <p>credits</p>
+      </div>
+
+    const btnBoost = <button 
+      id="btnBoost" 
+      onClick={this.hanClickBoost}
+      >
+      {`+boost! (-10 credits)`}
+    </button>
+
+    if (credits >= 20) {
+      return (
         <div className="App">
-          <div id="grid-base">
-            <div id="topDisplay">
-              <p id="score">{credits}</p>
-              <p>credits</p>
-            </div>
+          <div id="flex-base">
+
+            {topDisplay}
             <h2>Victory!</h2>
-            <p>You made 100 credits!</p>
-            <button id="btnReset" onClick={this.handleClickReset}>Another game?</button>
+            {statusMsg}
+            <button id="btnReset" onClick={this.hanClickReset}>Another game?</button>
+
           </div>
         </div>
       );
     }
 
     return (
-      <div className="App">
-        <div id="grid-base">
-          <div id="topDisplay">
-            <p id="score">{credits}</p>
-            <p>credits</p>
-          </div>
-          <button id="btnGo" onClick={this.handleClickGo}>{`+${perClick.toString()} credits`}</button>
-        </div>
+      <div id="flex-base">
+
+        {topDisplay}
+        <button id="btnGo" onClick={this.hanClickGo}>{`+${clickValue.toString()} credits`}</button>
+        {statusMsg}
+        {credits >= 10 && boostsActive < 1 ? btnBoost : btnBoost}
+
       </div>
     );
   }

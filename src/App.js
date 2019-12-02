@@ -14,10 +14,11 @@ import './App.css';
 class App extends React.Component {
   constructor() {
     super();
-    this.state = {
+    this.initialState = {
       credits: 0,
       perClick: 1
     };
+    this.state = this.initialState;
   }
 
   handleClickGo = () => {
@@ -26,8 +27,29 @@ class App extends React.Component {
     });
   }
 
+  handleClickReset = () => {
+    this.setState(this.initialState);
+  }
+
   render() {
     const { credits, perClick } = this.state;
+
+    if (credits >= 10) {
+      return(
+        <div className="App">
+          <div id="grid-base">
+            <div id="topDisplay">
+              <p id="score">{credits}</p>
+              <p>credits</p>
+            </div>
+            <h2>Victory!</h2>
+            <p>You made 100 credits!</p>
+            <button id="btnReset" onClick={this.handleClickReset}>Another game?</button>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="App">
         <div id="grid-base">

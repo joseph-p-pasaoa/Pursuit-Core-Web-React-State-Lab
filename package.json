@@ -13,6 +13,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "author": "Joseph P. Pasaoa",
   "eslintConfig": {
     "extends": "react-app"
   },

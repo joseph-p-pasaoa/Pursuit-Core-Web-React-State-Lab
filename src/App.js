@@ -45,6 +45,17 @@ class App extends React.Component {
     this.setState({
         credits: this.state.credits + this.state.clickValue
     });
+    if (this.state.credits + this.state.clickValue >= this.victoryNum) {
+      this.setState({
+          statusMsg: this.messages.victory
+      });
+    }
+  }
+
+  hanMouseOverBoost = (e) => {
+    if (this.state.credits < 10) {
+      e.target.style.cursor = 'not-allowed';
+    }
   }
 
   hanClickBoost = () => {
@@ -90,7 +101,8 @@ class App extends React.Component {
 
     const btnBoost = <button 
       id="btnBoost" 
-      onClick={this.hanClickBoost}
+      onClick={this.hanClickBoost} 
+      onMouseOver={this.hanMouseOverBoost}
       >
       {`+boost! (-10 credits)`}
     </button>

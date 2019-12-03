@@ -25,10 +25,12 @@ class App extends React.Component {
       clickValue: 1,
       boostsActive: 0,
       statusMsg: this.messages.regular,
+      cursorOnBoost: 'not-allowed',
       drain: setInterval(() => {
         if (this.state.credits > 0) {
           this.setState({
-              credits: this.state.credits - 1
+              credits: this.state.credits - 1,
+              cursorOnBoost: this.state.credits - 1 >= 10 ? 'pointer' : 'not-allowed'
           });
         }
       }, 1000)
@@ -40,21 +42,15 @@ class App extends React.Component {
     return (this.state.credits / this.victoryNum * 100).toFixed(2) + '%';
   }
 
-
   hanClickGo = () => {
     this.setState({
-        credits: this.state.credits + this.state.clickValue
+        credits: this.state.credits + this.state.clickValue,
+        cursorOnBoost: this.state.credits + this.state.clickValue >= 10 ? 'pointer' : 'not-allowed'
     });
     if (this.state.credits + this.state.clickValue >= this.victoryNum) {
       this.setState({
           statusMsg: this.messages.victory
       });
-    }
-  }
-
-  hanMouseOverBoost = (e) => {
-    if (this.state.credits < 10) {
-      e.target.style.cursor = 'not-allowed';
     }
   }
 
@@ -72,7 +68,8 @@ class App extends React.Component {
       this.setState({
           credits: this.state.credits - 10,
           clickValue: this.state.clickValue + 1,
-          boostsActive: this.boostsActive + 1
+          boostsActive: this.boostsActive + 1,
+          cursorOnBoost: this.state.credits - 10 >= 10 ? 'pointer' : 'not-allowed'
       });
     }
   }
@@ -91,21 +88,21 @@ class App extends React.Component {
   }
 
   render() {
-    const { credits, clickValue, boostsActive, statusMsg, drain } = this.state;
+    const { credits, clickValue, boostsActive, statusMsg, cursorOnBoost, drain } = this.state;
 
     const topDisplay =
       <div id="topDisplay">
         <p id="score">{credits}</p>
-        <p>credits</p>
+        <p id="credits-label">credits</p>
       </div>
 
     const btnBoost = <button 
       id="btnBoost" 
       onClick={this.hanClickBoost} 
-      onMouseOver={this.hanMouseOverBoost}
+      style={{cursor: cursorOnBoost}}
       >
-      {`+boost! (-10 credits)`}
-    </button>
+        {`+boost! (-10 credits)`}
+      </button>
 
     if (credits >= this.victoryNum) {
       clearInterval(drain);

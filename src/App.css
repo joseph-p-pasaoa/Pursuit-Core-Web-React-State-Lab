@@ -71,11 +71,19 @@ table {
 
 
 /* MAIN STYLE */
-html, body, div#base-grid {
+html, body, .App, div#flex-base {
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
+}
+
+.App {
+  background-color: gold;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: background-color 0.25s;
 }
 
 div#flex-base {
@@ -84,6 +92,9 @@ div#flex-base {
   flex-wrap: nowrap;
   justify-content: flex-start;
   align-items: center;
+  width: 50vw;
+  height: 100vh;
+  background-color: white;
 }
 
 p#score {

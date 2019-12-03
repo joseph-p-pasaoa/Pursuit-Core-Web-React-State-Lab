@@ -14,19 +14,32 @@ import './App.css';
 class App extends React.Component {
   constructor() {
     super();
+    this.victoryNum = 100;
     this.messages = {
       regular: <p>All systems go. Click for credits!</p>,
       boostDenied: <p className='msg--red'>Not enough credits. Boost DENIED.</p>,
       victory: <p>You made 100 credits!</p>
-    }
+    };
     this.initialState = {
       credits: 0,
       clickValue: 1,
       boostsActive: 0,
-      statusMsg: this.messages.regular
+      statusMsg: this.messages.regular,
+      drain: setInterval(() => {
+        if (this.state.credits > 0) {
+          this.setState({
+              credits: this.state.credits - 1
+          });
+        }
+      }, 1000)
     };
     this.state = this.initialState;
   }
+
+  calcLuminosity = () => {
+    return (this.state.credits / this.victoryNum * 100).toFixed(2) + '%';
+  }
+
 
   hanClickGo = () => {
     this.setState({
@@ -55,10 +68,19 @@ class App extends React.Component {
 
   hanClickReset = () => {
     this.setState(this.initialState);
+    this.setState({
+        drain: setInterval(() => {
+          if (this.state.credits > 0) {
+            this.setState({
+                credits: this.state.credits - 1
+            });
+          }
+        }, 1000)
+    });
   }
 
   render() {
-    const { credits, clickValue, boostsActive, statusMsg } = this.state;
+    const { credits, clickValue, boostsActive, statusMsg, drain } = this.state;
 
     const topDisplay =
       <div id="topDisplay">
@@ -73,7 +95,8 @@ class App extends React.Component {
       {`+boost! (-10 credits)`}
     </button>
 
-    if (credits >= 20) {
+    if (credits >= this.victoryNum) {
+      clearInterval(drain);
       return (
         <div className="App">
           <div id="flex-base">
@@ -89,13 +112,15 @@ class App extends React.Component {
     }
 
     return (
-      <div id="flex-base">
+      <div className="App" style={{backgroundColor: `hsl(0, 0%, ${this.calcLuminosity()}`}}>
+        <div id="flex-base">
 
-        {topDisplay}
-        <button id="btnGo" onClick={this.hanClickGo}>{`+${clickValue.toString()} credits`}</button>
-        {statusMsg}
-        {credits >= 10 && boostsActive < 1 ? btnBoost : btnBoost}
+          {topDisplay}
+          <button id="btnGo" onClick={this.hanClickGo}>{`+${clickValue.toString()} credits`}</button>
+          {statusMsg}
+          {credits >= 10 && boostsActive < 1 ? btnBoost : btnBoost}
 
+        </div>
       </div>
     );
   }

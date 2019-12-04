@@ -10,6 +10,10 @@ import './App.css';
 // const { log } = require('./utils/helpers.js');
 
 
+const btnBoostOff = 'linear-gradient(to bottom, #525252 0%,#000 100%)';
+const btnBoostOn = 'linear-gradient(to bottom, #e7ea12 0%,#f16d11 100%)';
+
+
 /* EXEC */
 class App extends React.Component {
   constructor() {
@@ -17,20 +21,27 @@ class App extends React.Component {
     this.victoryNum = 100;
     this.messages = {
       regular: <p>All systems go. Click for credits!</p>,
-      boostDenied: <p className='msg--red'>Not enough credits. Boost DENIED.</p>,
-      victory: <p>You made 100 credits!</p>
+      boostDenied: <p className='msg--red'>Not enough credits. Boost DENIED.</p>
     };
+    // this.styles = {
+    //   btnBoostOff: 'linear-gradient(to bottom, #525252 0%,#000 100%)',
+    //   btnBoostOn: 'linear-gradient(to bottom, #e7ea12 0%,#f16d11 100%)'
+    // };
     this.initialState = {
       credits: 0,
       clickValue: 1,
       boostsActive: 0,
       statusMsg: this.messages.regular,
       cursorOnBoost: 'not-allowed',
+      btnBoostFill: btnBoostOff,
+      btnBoostBorder: '#333',
       drain: setInterval(() => {
         if (this.state.credits > 0) {
           this.setState({
               credits: this.state.credits - 1,
-              cursorOnBoost: this.state.credits - 1 >= 10 ? 'pointer' : 'not-allowed'
+              cursorOnBoost: this.state.credits - 1 >= 10 ? 'pointer' : 'not-allowed',
+              btnBoostFill: this.state.credits - 1 >= 10 ? btnBoostOn : btnBoostOff,
+              btnBoostBorder: this.state.credits - 1 >= 10 ? 'orange' : '#333'
           });
         }
       }, 1000)
@@ -45,13 +56,10 @@ class App extends React.Component {
   hanClickGo = () => {
     this.setState({
         credits: this.state.credits + this.state.clickValue,
-        cursorOnBoost: this.state.credits + this.state.clickValue >= 10 ? 'pointer' : 'not-allowed'
+        cursorOnBoost: this.state.credits + this.state.clickValue >= 10 ? 'pointer' : 'not-allowed',
+        btnBoostFill: this.state.credits + this.state.clickValue >= 10 ? btnBoostOn : btnBoostOff,
+        btnBoostBorder: this.state.credits + this.state.clickValue >= 10 ? 'orange' : '#333'
     });
-    if (this.state.credits + this.state.clickValue >= this.victoryNum) {
-      this.setState({
-          statusMsg: this.messages.victory
-      });
-    }
   }
 
   hanClickBoost = () => {
@@ -69,7 +77,9 @@ class App extends React.Component {
           credits: this.state.credits - 10,
           clickValue: this.state.clickValue + 1,
           boostsActive: this.boostsActive + 1,
-          cursorOnBoost: this.state.credits - 10 >= 10 ? 'pointer' : 'not-allowed'
+          cursorOnBoost: this.state.credits - 10 >= 10 ? 'pointer' : 'not-allowed',
+          btnBoostFill: this.state.credits - 10 >= 10 ? btnBoostOn : btnBoostOff,
+          btnBoostBorder: this.state.credits - 10 >= 10 ? 'orange' : '#333'
       });
     }
   }
@@ -88,7 +98,16 @@ class App extends React.Component {
   }
 
   render() {
-    const { credits, clickValue, boostsActive, statusMsg, cursorOnBoost, drain } = this.state;
+    const { 
+      credits, 
+      clickValue, 
+      boostsActive, 
+      statusMsg, 
+      cursorOnBoost, 
+      btnBoostFill, 
+      btnBoostBorder, 
+      drain 
+    } = this.state;
 
     const topDisplay =
       <div id="topDisplay">
@@ -96,12 +115,13 @@ class App extends React.Component {
         <p id="credits-label">credits</p>
       </div>
 
-    const btnBoost = <button 
-      id="btnBoost" 
-      onClick={this.hanClickBoost} 
-      style={{cursor: cursorOnBoost}}
+    const btnBoost = 
+      <button 
+        id="btnBoost" 
+        onClick={this.hanClickBoost} 
+        style={{cursor: cursorOnBoost, backgroundImage: btnBoostFill, border: `solid 3px ${btnBoostBorder}`}}
       >
-        {`+boost! (-10 credits)`}
+        +boost!<br />{`(-10 creds)`}
       </button>
 
     if (credits >= this.victoryNum) {
@@ -112,7 +132,7 @@ class App extends React.Component {
 
             {topDisplay}
             <h2>Victory!</h2>
-            {statusMsg}
+            <p>You made 100 credits! Congratulations!</p>
             <button id="btnReset" onClick={this.hanClickReset}>Another game?</button>
 
           </div>
@@ -125,9 +145,11 @@ class App extends React.Component {
         <div id="flex-base">
 
           {topDisplay}
-          <button id="btnGo" onClick={this.hanClickGo}>{`+${clickValue.toString()} credits`}</button>
+          <div id="controls">
+            {credits >= 10 && boostsActive < 1 ? btnBoost : btnBoost}
+            <button id="btnGo" onClick={this.hanClickGo} type="button"><span>{`+${clickValue.toString()}`}</span> credits</button>
+          </div>
           {statusMsg}
-          {credits >= 10 && boostsActive < 1 ? btnBoost : btnBoost}
 
         </div>
       </div>

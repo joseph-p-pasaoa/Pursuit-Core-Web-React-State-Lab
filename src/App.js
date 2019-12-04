@@ -18,10 +18,10 @@ const btnBoostOn = 'linear-gradient(to bottom, #e7ea12 0%,#f16d11 100%)';
 class App extends React.Component {
   constructor() {
     super();
-    this.victoryNum = 100;
+    this.victoryNum = 10;
     this.messages = {
-      regular: <p>All systems go. Click for credits!</p>,
-      boostDenied: <p className='msg--red'>Not enough credits. Boost DENIED.</p>
+      regular: <p className='msg'>All systems go. Click for credits!</p>,
+      boostDenied: <p className='msg msg--red'>Not enough credits. Boost DENIED.</p>
     };
     // this.styles = {
     //   btnBoostOff: 'linear-gradient(to bottom, #525252 0%,#000 100%)',
@@ -132,8 +132,8 @@ class App extends React.Component {
 
             {topDisplay}
             <h2>Victory!</h2>
-            <p>You made 100 credits! Congratulations!</p>
-            <button id="btnReset" onClick={this.hanClickReset}>Another game?</button>
+            <p className="msg msg--grats">You made 100 credits! Congratulations!</p>
+            <button id="btnReset" onClick={this.hanClickReset}>Try again?</button>
 
           </div>
         </div>

@@ -10,37 +10,37 @@ import './App.css';
 // const { log } = require('./utils/helpers.js');
 
 
-const btnBoostOff = 'linear-gradient(to bottom, #525252 0%,#000 100%)';
-const btnBoostOn = 'linear-gradient(to bottom, #e7ea12 0%,#f16d11 100%)';
+
+
 
 
 /* EXEC */
 class App extends React.Component {
   constructor() {
     super();
-    this.victoryNum = 10;
+    this.victoryNum = 100;
     this.messages = {
       regular: <p className='msg'>All systems go. Click for credits!</p>,
       boostDenied: <p className='msg msg--red'>Not enough credits. Boost DENIED.</p>
     };
-    // this.styles = {
-    //   btnBoostOff: 'linear-gradient(to bottom, #525252 0%,#000 100%)',
-    //   btnBoostOn: 'linear-gradient(to bottom, #e7ea12 0%,#f16d11 100%)'
-    // };
+    this.styles = {
+      btnBoostOff: 'linear-gradient(to bottom, #525252 0%,#000 100%)',
+      btnBoostOn: 'linear-gradient(to bottom, #e7ea12 0%,#f16d11 100%)'
+    };
     this.initialState = {
       credits: 0,
       clickValue: 1,
       boostsActive: 0,
       statusMsg: this.messages.regular,
       cursorOnBoost: 'not-allowed',
-      btnBoostFill: btnBoostOff,
+      btnBoostFill: this.styles.btnBoostOff,
       btnBoostBorder: '#333',
       drain: setInterval(() => {
         if (this.state.credits > 0) {
           this.setState({
               credits: this.state.credits - 1,
               cursorOnBoost: this.state.credits - 1 >= 10 ? 'pointer' : 'not-allowed',
-              btnBoostFill: this.state.credits - 1 >= 10 ? btnBoostOn : btnBoostOff,
+              btnBoostFill: this.state.credits - 1 >= 10 ? this.styles.btnBoostOn : this.styles.btnBoostOff,
               btnBoostBorder: this.state.credits - 1 >= 10 ? 'orange' : '#333'
           });
         }
@@ -57,7 +57,7 @@ class App extends React.Component {
     this.setState({
         credits: this.state.credits + this.state.clickValue,
         cursorOnBoost: this.state.credits + this.state.clickValue >= 10 ? 'pointer' : 'not-allowed',
-        btnBoostFill: this.state.credits + this.state.clickValue >= 10 ? btnBoostOn : btnBoostOff,
+        btnBoostFill: this.state.credits + this.state.clickValue >= 10 ? this.styles.btnBoostOn : this.styles.btnBoostOff,
         btnBoostBorder: this.state.credits + this.state.clickValue >= 10 ? 'orange' : '#333'
     });
   }
@@ -78,7 +78,7 @@ class App extends React.Component {
           clickValue: this.state.clickValue + 1,
           boostsActive: this.boostsActive + 1,
           cursorOnBoost: this.state.credits - 10 >= 10 ? 'pointer' : 'not-allowed',
-          btnBoostFill: this.state.credits - 10 >= 10 ? btnBoostOn : btnBoostOff,
+          btnBoostFill: this.state.credits - 10 >= 10 ? this.styles.btnBoostOn : this.styles.btnBoostOff,
           btnBoostBorder: this.state.credits - 10 >= 10 ? 'orange' : '#333'
       });
     }

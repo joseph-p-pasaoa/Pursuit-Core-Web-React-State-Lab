@@ -4,6 +4,13 @@ React Clicker Game Lab
 */
 
 
+/* TO DO
+add high score system
+add scores record grid
+mobile ui responsiveness
+*/
+
+
 /* IMPORTS */
 import React from 'react';
 import './App.css';

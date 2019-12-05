@@ -10,10 +10,6 @@ import './App.css';
 // const { log } = require('./utils/helpers.js');
 
 
-
-
-
-
 /* EXEC */
 class App extends React.Component {
   constructor() {
@@ -44,7 +40,11 @@ class App extends React.Component {
               btnBoostBorder: this.state.credits - 1 >= 10 ? 'orange' : '#333'
           });
         }
-      }, 1000)
+      }, 1000),
+      statNumClicks: 0,
+      statNumBoosts: 0,
+      statStartTime: Date.now(),
+      statTimeToWin: null
     };
     this.state = this.initialState;
   }
@@ -58,7 +58,8 @@ class App extends React.Component {
         credits: this.state.credits + this.state.clickValue,
         cursorOnBoost: this.state.credits + this.state.clickValue >= 10 ? 'pointer' : 'not-allowed',
         btnBoostFill: this.state.credits + this.state.clickValue >= 10 ? this.styles.btnBoostOn : this.styles.btnBoostOff,
-        btnBoostBorder: this.state.credits + this.state.clickValue >= 10 ? 'orange' : '#333'
+        btnBoostBorder: this.state.credits + this.state.clickValue >= 10 ? 'orange' : '#333',
+        statNumClicks: this.state.statNumClicks + 1
     });
   }
 
@@ -79,7 +80,8 @@ class App extends React.Component {
           boostsActive: this.boostsActive + 1,
           cursorOnBoost: this.state.credits - 10 >= 10 ? 'pointer' : 'not-allowed',
           btnBoostFill: this.state.credits - 10 >= 10 ? this.styles.btnBoostOn : this.styles.btnBoostOff,
-          btnBoostBorder: this.state.credits - 10 >= 10 ? 'orange' : '#333'
+          btnBoostBorder: this.state.credits - 10 >= 10 ? 'orange' : '#333',
+          statNumBoosts: this.state.statNumBoosts + 1
       });
     }
   }
@@ -93,8 +95,13 @@ class App extends React.Component {
                 credits: this.state.credits - 1
             });
           }
-        }, 1000)
+        }, 1000),
+        statStartTime: Date.now()
     });
+  }
+
+  markEndTime = () => {
+    return (Date.now() - this.state.statStartTime) / 1000;
   }
 
   render() {
@@ -106,7 +113,9 @@ class App extends React.Component {
       cursorOnBoost, 
       btnBoostFill, 
       btnBoostBorder, 
-      drain 
+      drain,
+      statNumClicks,
+      statNumBoosts
     } = this.state;
 
     const topDisplay =
@@ -125,6 +134,7 @@ class App extends React.Component {
       </button>
 
     if (credits >= this.victoryNum) {
+      const statTimeToWin = this.markEndTime();
       clearInterval(drain);
       return (
         <div className="App">
@@ -134,7 +144,8 @@ class App extends React.Component {
             <h2>Victory!</h2>
             <p className="msg msg--grats">You made 100 credits! Congratulations!</p>
             <button id="btnReset" onClick={this.hanClickReset}>Try again?</button>
-
+            <p className="msg">stats ~</p>
+            Time: {statTimeToWin}, Clicks: {statNumClicks}, Boosts: {statNumBoosts}
           </div>
         </div>
       );
@@ -150,7 +161,6 @@ class App extends React.Component {
             <button id="btnGo" onClick={this.hanClickGo} type="button"><span>{`+${clickValue.toString()}`}</span> credits</button>
           </div>
           {statusMsg}
-
         </div>
       </div>
     );

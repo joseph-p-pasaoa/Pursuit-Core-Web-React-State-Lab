@@ -96,6 +96,7 @@ div#flex-base {
   justify-content: flex-start;
   align-items: center;
 
+  min-width: 512px;
   width: 50vw;
   height: 100vh;
   background-color: white;

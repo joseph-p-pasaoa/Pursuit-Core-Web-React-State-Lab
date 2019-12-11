@@ -140,6 +140,13 @@ class App extends React.Component {
         +boost!<br />{`(-10 creds)`}
       </button>
 
+    const title =
+      <h1>Click, <br />Pass <br />the Cent</h1>
+
+    const footer =
+      <footer>Copyright ©2019 Joseph P. Pasaoa. All rights reserved.</footer>
+
+
     if (credits >= this.victoryNum) {
       const statTimeToWin = this.markEndTime();
       clearInterval(drain);
@@ -153,6 +160,8 @@ class App extends React.Component {
             <button id="btnReset" onClick={this.hanClickReset}>Try again?</button>
             <p className="msg">stats ~</p>
             Time: {statTimeToWin}, Clicks: {statNumClicks}, Boosts: {statNumBoosts}
+            {title}
+            {footer}
           </div>
         </div>
       );
@@ -168,6 +177,8 @@ class App extends React.Component {
             <button id="btnGo" onClick={this.hanClickGo} type="button"><span>{`+${clickValue.toString()}`}</span> credits</button>
           </div>
           {statusMsg}
+          {title}
+          {footer}
         </div>
       </div>
     );

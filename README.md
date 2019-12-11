@@ -1,5 +1,13 @@
 # Pursuit-Core-Web-React-State-Lab
 
+### Completed MVP Screen Capture
+
+![My completed mvp screencap](./readme/screencap.png)
+
+---
+
+## Directions
+
 Build a simple clicker game.  It should have the following requirements:
 
 - Display the current score to the user

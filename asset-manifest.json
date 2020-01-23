@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/lab02_react-states/static/css/main.f33b74ac.chunk.css",
+    "main.js": "/lab02_react-states/static/js/main.d612491f.chunk.js",
+    "main.js.map": "/lab02_react-states/static/js/main.d612491f.chunk.js.map",
+    "runtime-main.js": "/lab02_react-states/static/js/runtime-main.ecb23c27.js",
+    "runtime-main.js.map": "/lab02_react-states/static/js/runtime-main.ecb23c27.js.map",
+    "static/js/2.812a88e5.chunk.js": "/lab02_react-states/static/js/2.812a88e5.chunk.js",
+    "static/js/2.812a88e5.chunk.js.map": "/lab02_react-states/static/js/2.812a88e5.chunk.js.map",
+    "index.html": "/lab02_react-states/index.html",
+    "precache-manifest.201433f309497ff84156bdbf0fa02719.js": "/lab02_react-states/precache-manifest.201433f309497ff84156bdbf0fa02719.js",
+    "service-worker.js": "/lab02_react-states/service-worker.js",
+    "static/css/main.f33b74ac.chunk.css.map": "/lab02_react-states/static/css/main.f33b74ac.chunk.css.map",
+    "static/js/2.812a88e5.chunk.js.LICENSE": "/lab02_react-states/static/js/2.812a88e5.chunk.js.LICENSE",
+    "static/media/App.css": "/lab02_react-states/static/media/FrederickatheGreat-Regular.9122299e.ttf"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.ecb23c27.js",
+    "static/js/2.812a88e5.chunk.js",
+    "static/css/main.f33b74ac.chunk.css",
+    "static/js/main.d612491f.chunk.js"
+  ]
+}
